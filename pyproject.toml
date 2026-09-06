@@ -1,0 +1,14 @@
+[project]
+name = "ai-simulator"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "arcade>=3.3.3",
+    "matplotlib>=3.11.1",
+    "neat-python>=2.0.0",
+    "numpy>=2.5.3",
+    "ruff>=0.16.6",
+    "shapely>=2.1.2",
+]

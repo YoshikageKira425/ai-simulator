@@ -1,0 +1,16 @@
+__pycache__/
+.pytest_cache/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+.ruff_cache
+
+.coverage
+scalene-profile.html
+scalene-profile.json
+
+.venv
+uv.lock
