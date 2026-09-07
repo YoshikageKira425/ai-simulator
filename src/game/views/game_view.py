@@ -1,5 +1,6 @@
 import arcade
 from game.entity.car import Car
+from game.controller.car_controller import CarController
 
 class GameView(arcade.View):
     def __init__(self):
@@ -9,6 +10,8 @@ class GameView(arcade.View):
         
         self.car = Car()
         self.sprite_list.append(self.car)
+        
+        self.car_controller = CarController(self.car)
         
     def on_draw(self):
         self.clear()
