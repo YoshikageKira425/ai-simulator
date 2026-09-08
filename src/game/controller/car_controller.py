@@ -13,37 +13,40 @@ class CarController:
         self.friction: float = 0.98
         self.turn_speed: float = 120.0
 
-    def forward(self, delta_time: float):
+    def apply_action(self, throttle: float, steering: float, delta_time: float):
+        if throttle == 1:
+            self._forward(delta_time)
+        elif throttle == -1:
+            self._reverse(delta_time)
+
+        if steering == 1:
+            self._turn_right(delta_time)
+        elif steering == -1:
+            self._turn_left(delta_time)
+
+        self._update_car(delta_time)
+
+    def _forward(self, delta_time: float):
         self.current_speed += delta_time * self.acceleration
         if self.current_speed >= self.max_speed:
             self.current_speed = self.max_speed
 
-    def reverse(self, delta_time: float):
+    def _reverse(self, delta_time: float):
         self.current_speed -= delta_time * self.acceleration
         if self.current_speed <= self.max_reverse_speed:
             self.current_speed = self.max_reverse_speed
 
-    def turn_left(self, delta_time: float):
+    def _turn_left(self, delta_time: float):
         if self.current_speed != 0:
             direction = 1.0 if self.current_speed > 0 else -1.0
             self.car.angle -= self.turn_speed * delta_time * direction
 
-    def turn_right(self, delta_time: float):
+    def _turn_right(self, delta_time: float):
         if self.current_speed != 0:
             direction = 1.0 if self.current_speed > 0 else -1.0
             self.car.angle += self.turn_speed * delta_time * direction
 
-    def update(self, delta_time: float, actions: list[str]):
-        for action in actions:
-            if action == "forward":
-                self.forward(delta_time)
-            if action == "reverse":
-                self.reverse(delta_time)
-            if action == "left":
-                self.turn_left(delta_time)
-            if action == "right":
-                self.turn_right(delta_time)
-
+    def _update_car(self, delta_time):
         self.current_speed *= self.friction
 
         if abs(self.current_speed) < 0.1:
@@ -55,3 +58,5 @@ class CarController:
 
         self.car.center_x += change_x
         self.car.center_y += change_y
+
+#  Rework how the actions are handle, make one function that handles it
