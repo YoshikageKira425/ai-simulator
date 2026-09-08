@@ -13,30 +13,29 @@ class GameView(arcade.View):
         self.sprite_list.append(self.car)
 
         self.car_controller = CarController(self.car)
-        self.keys_held = []
+        self.throttle = 0
+        self.steering = 0
 
     def on_key_press(self, symbol, modifiers):
         if symbol == arcade.key.W:
-            self.keys_held.append("forward")
-        if symbol == arcade.key.S:
-            self.keys_held.append("reverse")
+            self.throttle = 1
+        elif symbol == arcade.key.S:
+            self.throttle = -1
+        
         if symbol == arcade.key.A:
-            self.keys_held.append("left")
-        if symbol == arcade.key.D:
-            self.keys_held.append("right")
+            self.steering = -1
+        elif symbol == arcade.key.D:
+            self.steering = 1
 
     def on_key_release(self, symbol, modifiers):
-        if symbol == arcade.key.W:
-            self.keys_held.remove("forward")
-        if symbol == arcade.key.S:
-            self.keys_held.remove("reverse")
-        if symbol == arcade.key.A:
-            self.keys_held.remove("left")
-        if symbol == arcade.key.D:
-            self.keys_held.remove("right")
+        if symbol == arcade.key.W or symbol == arcade.key.S:
+            self.throttle = 0
+            
+        if symbol == arcade.key.A or symbol == arcade.key.D:
+            self.steering = 0
 
     def on_update(self, delta_time):
-        self.car_controller.update(delta_time, self.keys_held)
+        self.car_controller.apply_action(self.throttle, self.steering, delta_time)
 
     def on_draw(self):
         self.clear()
