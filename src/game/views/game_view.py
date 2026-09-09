@@ -10,7 +10,7 @@ class GameView(arcade.View):
         self.sprite_list = arcade.SpriteList(True)
         
         self.map_manager = MapManager()
-        self.sprite_list.append(self.map_manager.map)
+        self.sprite_list.append(self.map_manager.get_map())
 
         self.car = Car()
         self.sprite_list.append(self.car)
@@ -38,9 +38,8 @@ class GameView(arcade.View):
             self.steering = 0
 
     def on_update(self, delta_time):
-        # hit = arcade.check_for_collision(self.car, None)
-        # if hit:
-        #     return
+        if self.map_manager.is_on_track(self.car.center_x, self.car.center_y):
+            return
         
         self.car_controller.apply_action(self.throttle, self.steering, delta_time)
 
