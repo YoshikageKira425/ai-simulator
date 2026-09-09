@@ -58,5 +58,3 @@ class CarController:
 
         self.car.center_x += change_x
         self.car.center_y += change_y
-
-#  Rework how the actions are handle, make one function that handles it

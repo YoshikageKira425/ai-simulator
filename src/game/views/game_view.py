@@ -1,13 +1,16 @@
 import arcade
 from game.entity.car import Car
 from game.controller.car_controller import CarController
-
+from game.core.map_manager import MapManager
 
 class GameView(arcade.View):
     def __init__(self):
         super().__init__(background_color=arcade.color.BLACK)
 
         self.sprite_list = arcade.SpriteList(True)
+        
+        self.map_manager = MapManager()
+        self.sprite_list.append(self.map_manager.map)
 
         self.car = Car()
         self.sprite_list.append(self.car)
@@ -35,6 +38,10 @@ class GameView(arcade.View):
             self.steering = 0
 
     def on_update(self, delta_time):
+        # hit = arcade.check_for_collision(self.car, None)
+        # if hit:
+        #     return
+        
         self.car_controller.apply_action(self.throttle, self.steering, delta_time)
 
     def on_draw(self):
