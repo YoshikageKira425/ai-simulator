@@ -22,7 +22,6 @@ class GameView(arcade.View):
         self.steering = 0
         
         self.raycasting = Raycasting(self.car, self.map_manager)
-        print(self.raycasting.cast_rays())
 
     def on_key_press(self, symbol, modifiers):
         if symbol == arcade.key.W:
@@ -46,9 +45,12 @@ class GameView(arcade.View):
         if self.map_manager.is_on_track(self.car.center_x, self.car.center_y):
             return
 
+
         self.car_controller.apply_action(
             self.throttle, self.steering, delta_time)
 
     def on_draw(self):
         self.clear()
+        
         self.sprite_list.draw()
+        self.raycasting.debug_cast_rays()
