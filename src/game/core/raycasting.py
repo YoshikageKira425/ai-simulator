@@ -10,14 +10,14 @@ class Raycasting:
         car: Car,
         map: MapManager,
         ray_angles: List[float] = None,
-        max_distance: float = 250.0,
-        step_size: float = 3.0,
+        max_distance: float = 100.0,
+        step_size: float = 0.6,
     ):
         self._car = car
         self._map = map
 
         self._ray_angles = (
-            ray_angles if ray_angles is not None else [-180, -210, -240, -270, -300]
+            ray_angles if ray_angles is not None else [-60, -30, 0, 30, 60]
         )
         self._max_distance = max_distance
         self._step_size = step_size
@@ -29,7 +29,7 @@ class Raycasting:
         sensor_inputs: List[float] = []
 
         for rel_angle in self._ray_angles:
-            total_angle = self._car.angle + rel_angle
+            total_angle = -self._car.angle + rel_angle
             ray_rad = math.radians(total_angle)
 
             dx = -math.sin(ray_rad)
@@ -59,7 +59,7 @@ class Raycasting:
         origin_y = self._car.center_y
 
         for rel_angle in self._ray_angles:
-            total_angle = self._car.alpha + rel_angle
+            total_angle = -self._car.angle + rel_angle
             ray_rad = math.radians(total_angle)
 
             dx = -math.sin(ray_rad)
