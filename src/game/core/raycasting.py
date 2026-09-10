@@ -1,0 +1,62 @@
+from game.entity.car import Car
+from game.core.map_manager import MapManager
+import math
+from typing import List, Tuple, Dict, Any
+
+
+class Raycasting:
+    def __init__(
+        self,
+        car: Car,
+        map: MapManager,
+        ray_angles: List[float] = None,
+        max_distance: float = 250.0,
+        step_size: float = 3.0,
+    ):
+        self._car = car
+        self._map = map
+
+        self._ray_angles = (
+            ray_angles if ray_angles is not None else [-60, -30, 0, 30, 60]
+        )
+        self._max_distance = max_distance
+        self._step_size = step_size
+        
+    def cast_rays(
+        self,
+        front_offset: float = 15.0,
+    ) -> List[float]:
+        car_rad = math.radians(self._car.angle)
+
+        origin_x = self._car.center_x - front_offset * math.sin(car_rad)
+        origin_y = self._car.center_y + front_offset * math.cos(car_rad)
+
+        sensor_inputs: List[float] = []
+
+        for rel_angle in self._ray_angles:
+            total_angle = self._car.angle + rel_angle
+            ray_rad = math.radians(total_angle)
+
+            dx = -math.sin(ray_rad)
+            dy = math.cos(ray_rad)
+
+            distance = 0.0
+
+            while distance < self._max_distance:
+                distance += self._step_size
+
+                sample_x = origin_x + (dx * distance)
+                sample_y = origin_y + (dy * distance)
+
+                if not self._map.is_on_track(sample_x, sample_y):
+                    break
+
+            actual_distance = min(distance, self._max_distance)
+            normalized_dist = actual_distance / self._max_distance
+
+            danger_score = 1.0 - normalized_dist
+            sensor_inputs.append(danger_score)
+
+        return sensor_inputs
+
+    
