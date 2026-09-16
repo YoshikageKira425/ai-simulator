@@ -1,6 +1,6 @@
 import arcade
 from game.entity.car import Car
-from game.controller.car_controller import CarController
+from game.core.car_controller import CarController
 from game.core.map_manager import MapManager
 from game.core.raycasting import Raycasting
 
@@ -44,7 +44,6 @@ class GameView(arcade.View):
     def on_update(self, delta_time):
         if self.map_manager.is_on_track(self.car.center_x, self.car.center_y):
             return
-
 
         self.car_controller.apply_action(
             self.throttle, self.steering, delta_time)
