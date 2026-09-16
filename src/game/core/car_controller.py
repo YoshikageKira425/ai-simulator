@@ -14,14 +14,14 @@ class CarController:
         self.turn_speed: float = 120.0
 
     def apply_action(self, throttle: float, steering: float, delta_time: float):
-        if throttle == 1:
+        if throttle > 0:
             self._forward(delta_time)
-        elif throttle == -1:
+        elif throttle < 0:
             self._reverse(delta_time)
 
-        if steering == 1:
+        if steering > 0:
             self._turn_right(delta_time)
-        elif steering == -1:
+        elif steering < 0:
             self._turn_left(delta_time)
 
         self._update_car(delta_time)

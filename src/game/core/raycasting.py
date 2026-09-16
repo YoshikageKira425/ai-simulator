@@ -43,7 +43,7 @@ class Raycasting:
                 sample_x = origin_x + (dx * distance)
                 sample_y = origin_y + (dy * distance)
 
-                if self._map.is_on_track(sample_x, sample_y):
+                if not self._map.is_on_track(sample_x, sample_y):
                     break
 
             actual_distance = min(distance, self._max_distance)
@@ -73,7 +73,7 @@ class Raycasting:
                 sample_x = origin_x + (dx * distance)
                 sample_y = origin_y + (dy * distance)
 
-                if self._map.is_on_track(sample_x, sample_y):
+                if not self._map.is_on_track(sample_x, sample_y):
                     break
 
             actual_distance = min(distance, self._max_distance)

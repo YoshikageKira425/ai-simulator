@@ -1,9 +1,6 @@
 import arcade
-from game.entity.car import Car
-from game.core.car_controller import CarController
+from game.core.car_agent import CarAgent
 from game.core.map_manager import MapManager
-from game.core.raycasting import Raycasting
-
 
 class GameView(arcade.View):
     def __init__(self):
@@ -14,14 +11,11 @@ class GameView(arcade.View):
         self.map_manager = MapManager()
         self.sprite_list.append(self.map_manager.get_map())
 
-        self.car = Car()
-        self.sprite_list.append(self.car)
+        self.car = CarAgent(70, 200, self.map_manager)
+        self.sprite_list.append(self.car.car_enity)
 
-        self.car_controller = CarController(self.car)
         self.throttle = 0
         self.steering = 0
-        
-        self.raycasting = Raycasting(self.car, self.map_manager)
 
     def on_key_press(self, symbol, modifiers):
         if symbol == arcade.key.W:
@@ -42,14 +36,10 @@ class GameView(arcade.View):
             self.steering = 0
 
     def on_update(self, delta_time):
-        if self.map_manager.is_on_track(self.car.center_x, self.car.center_y):
-            return
-
-        self.car_controller.apply_action(
-            self.throttle, self.steering, delta_time)
+        self.car.update(delta_time, [self.throttle, self.steering])
 
     def on_draw(self):
         self.clear()
         
         self.sprite_list.draw()
-        self.raycasting.debug_cast_rays()
+        # self.car.debug()

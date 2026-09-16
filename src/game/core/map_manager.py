@@ -18,6 +18,6 @@ class MapManager:
         
         if 0 <= x < self.width and 0 <= new_y < self.height:
             r, g, b = self._pil_image.getpixel((x, new_y))
-            return r > 0 and g > 0 and b > 0
+            return not (r > 0 and g > 0 and b > 0)
 
         return False
