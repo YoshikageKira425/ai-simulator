@@ -1,11 +1,27 @@
 import arcade
 from game.views.game_view import GameView 
+import argparse
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Car AI"
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="2D Racing AI Simulation Controller"
+    )
+
+    parser.add_argument(
+        "--game", action="store_true", help="Launch manual player mode"
+    )
+    args = parser.parse_args()
+    
+    if args.game or not args.game:
+        play_game()
+
+def play_game():
+    print("Playing game")
+    
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     window.show_view(GameView())
     arcade.run()
