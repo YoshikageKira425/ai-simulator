@@ -1,13 +1,13 @@
 import arcade
 from PIL import Image
+from src.constant import MAP_IMAGE_PATH
 
 
 class MapManager:
     def __init__(self):
-        self._map = arcade.Sprite("src/assets/maps/map01.png", center_x=400, center_y=300)
+        self._map = arcade.Sprite(MAP_IMAGE_PATH, center_x=400, center_y=300)
 
-        self._pil_image = Image.open(
-            "src/assets/maps/map01.png").convert("RGB")
+        self._pil_image = Image.open(MAP_IMAGE_PATH).convert("RGB")
         self.width, self.height = self._pil_image.size
 
     def get_map(self) -> arcade.Sprite:

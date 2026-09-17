@@ -1,10 +1,7 @@
 import arcade
 from views.game_view import GameView 
 import argparse
-
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Car AI"
+from .constant import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
 
 def main():
     parser = argparse.ArgumentParser(

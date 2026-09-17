@@ -1,17 +1,12 @@
 import math
 from entity.car import Car
-
+from ..constant import CAR_ACCELERATION, CAR_FRICTION, CAR_MAX_SPEED, CAR_TURN_SPEED,  CAR_MAX_REVERSE_SPEED
 
 class CarController:
     def __init__(self, car: Car):
         self.car = car
 
         self.current_speed: float = 0.0
-        self.max_speed: float = 400.0
-        self.max_reverse_speed: float = -150.0
-        self.acceleration: float = 300.0
-        self.friction: float = 0.98
-        self.turn_speed: float = 120.0
 
     def apply_action(self, throttle: float, steering: float, delta_time: float):
         if throttle > 0:
@@ -27,27 +22,27 @@ class CarController:
         self._update_car(delta_time)
 
     def _forward(self, delta_time: float):
-        self.current_speed += delta_time * self.acceleration
-        if self.current_speed >= self.max_speed:
-            self.current_speed = self.max_speed
+        self.current_speed += delta_time * CAR_ACCELERATION
+        if self.current_speed >= CAR_MAX_SPEED:
+            self.current_speed = CAR_MAX_SPEED
 
     def _reverse(self, delta_time: float):
-        self.current_speed -= delta_time * self.acceleration
-        if self.current_speed <= self.max_reverse_speed:
-            self.current_speed = self.max_reverse_speed
+        self.current_speed -= delta_time * CAR_ACCELERATION
+        if self.current_speed <= CAR_MAX_REVERSE_SPEED:
+            self.current_speed = CAR_MAX_REVERSE_SPEED
 
     def _turn_left(self, delta_time: float):
         if self.current_speed != 0:
             direction = 1.0 if self.current_speed > 0 else -1.0
-            self.car.angle -= self.turn_speed * delta_time * direction
+            self.car.angle -= CAR_TURN_SPEED * delta_time * direction
 
     def _turn_right(self, delta_time: float):
         if self.current_speed != 0:
             direction = 1.0 if self.current_speed > 0 else -1.0
-            self.car.angle += self.turn_speed * delta_time * direction
+            self.car.angle += CAR_TURN_SPEED * delta_time * direction
 
     def _update_car(self, delta_time):
-        self.current_speed *= self.friction
+        self.current_speed *= CAR_FRICTION
 
         if abs(self.current_speed) < 0.1:
             self.current_speed = 0.0
