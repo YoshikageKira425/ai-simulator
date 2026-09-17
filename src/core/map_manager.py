@@ -1,6 +1,6 @@
 import arcade
 from PIL import Image
-from src.constant import MAP_IMAGE_PATH
+from ..constant import MAP_IMAGE_PATH
 
 
 class MapManager:

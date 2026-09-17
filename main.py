@@ -1,7 +1,7 @@
 import arcade
-from views.game_view import GameView 
+from src.views.game_view import GameView 
 import argparse
-from .constant import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
+from src.constant import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
 
 def main():
     parser = argparse.ArgumentParser(

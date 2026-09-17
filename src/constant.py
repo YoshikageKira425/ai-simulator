@@ -12,5 +12,5 @@ RAY_ANGLES = [-60.0, -30.0, 0.0, 30.0, 60.0]
 RAY_MAX_DISTANCE = 250.0
 RAY_STEP_SIZE = 3.0
 
-MAP_IMAGE_PATH = "src/game/assets/maps/map01.png"
-CAR_IMAGE_PATH = "src/game/assets/sprites/car_red.png"
+MAP_IMAGE_PATH = "src/assets/maps/map01.png"
+CAR_IMAGE_PATH = "src/assets/sprites/placeholder_car_sprite.png"

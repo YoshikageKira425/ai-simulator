@@ -1,8 +1,8 @@
 from typing import List, Tuple
-from entity.car import Car
-from core.car_controller import CarController
-from core.raycasting import Raycasting
-from core.map_manager import MapManager
+from ..entity.car import Car
+from .car_controller import CarController
+from .raycasting import Raycasting
+from .map_manager import MapManager
 
 
 class CarAgent:
