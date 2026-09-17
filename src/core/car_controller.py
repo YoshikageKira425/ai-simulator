@@ -1,5 +1,5 @@
 import math
-from game.entity.car import Car
+from entity.car import Car
 
 
 class CarController:

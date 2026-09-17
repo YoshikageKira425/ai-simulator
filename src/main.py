@@ -1,5 +1,5 @@
 import arcade
-from game.views.game_view import GameView 
+from views.game_view import GameView 
 import argparse
 
 SCREEN_WIDTH = 800

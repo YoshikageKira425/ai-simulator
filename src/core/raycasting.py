@@ -1,6 +1,6 @@
 import arcade
-from game.entity.car import Car
-from game.core.map_manager import MapManager
+from entity.car import Car
+from core.map_manager import MapManager
 import math
 from typing import List
 

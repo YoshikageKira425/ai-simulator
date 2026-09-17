@@ -4,10 +4,10 @@ from PIL import Image
 
 class MapManager:
     def __init__(self):
-        self._map = arcade.Sprite("src/game/assets/maps/map01.png", center_x=400, center_y=300)
+        self._map = arcade.Sprite("src/assets/maps/map01.png", center_x=400, center_y=300)
 
         self._pil_image = Image.open(
-            "src/game/assets/maps/map01.png").convert("RGB")
+            "src/assets/maps/map01.png").convert("RGB")
         self.width, self.height = self._pil_image.size
 
     def get_map(self) -> arcade.Sprite:

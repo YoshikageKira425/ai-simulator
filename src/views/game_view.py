@@ -1,6 +1,6 @@
 import arcade
-from game.core.car_agent import CarAgent
-from game.core.map_manager import MapManager
+from core.car_agent import CarAgent
+from core.map_manager import MapManager
 
 class GameView(arcade.View):
     def __init__(self):
