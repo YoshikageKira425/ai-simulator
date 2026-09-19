@@ -5,15 +5,12 @@ import math
 from typing import List
 from ..constant import RAY_ANGLES, RAY_MAX_DISTANCE, RAY_STEP_SIZE
 
+
 class Raycasting:
-    def __init__(
-        self,
-        car: Car,
-        map: MapManager
-    ):
+    def __init__(self, car: Car, map: MapManager):
         self._car = car
         self._map = map
-        
+
     def cast_rays(self) -> List[float]:
         origin_x = self._car.center_x
         origin_y = self._car.center_y
@@ -47,7 +44,7 @@ class Raycasting:
         return sensor_inputs
 
     def debug_cast_rays(self):
-        origin_x = self._car.center_x 
+        origin_x = self._car.center_x
         origin_y = self._car.center_y
 
         for rel_angle in RAY_ANGLES:
@@ -61,7 +58,7 @@ class Raycasting:
 
             while distance < RAY_MAX_DISTANCE:
                 distance += RAY_STEP_SIZE
-                
+
                 sample_x = origin_x + (dx * distance)
                 sample_y = origin_y + (dy * distance)
 
@@ -69,8 +66,8 @@ class Raycasting:
                     break
 
             actual_distance = min(distance, RAY_MAX_DISTANCE)
-            
+
             end_x = origin_x + (dx * actual_distance)
             end_y = origin_y + (dy * actual_distance)
-            
+
             arcade.draw_line(origin_x, origin_y, end_x, end_y, arcade.color.WHITE, 3)

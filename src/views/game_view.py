@@ -2,6 +2,7 @@ import arcade
 from ..core.car_agent import CarAgent
 from ..core.map_manager import MapManager
 
+
 class GameView(arcade.View):
     def __init__(self):
         super().__init__(background_color=arcade.color.BLACK)
@@ -40,6 +41,6 @@ class GameView(arcade.View):
 
     def on_draw(self):
         self.clear()
-        
+
         self.sprite_list.draw()
         # self.car.debug()

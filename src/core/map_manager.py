@@ -15,7 +15,7 @@ class MapManager:
 
     def is_on_track(self, x: float, y: float) -> bool:
         new_y = self.height - y
-        
+
         if 0 <= x < self.width and 0 <= new_y < self.height:
             r, g, b = self._pil_image.getpixel((x, new_y))
             return not (r > 0 and g > 0 and b > 0)

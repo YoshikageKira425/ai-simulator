@@ -27,7 +27,9 @@ class CarAgent:
 
         self.sensor_inputs = self._raycast.cast_rays()
 
-        if not self._map_manager.is_on_track(self.car_enity.center_x, self.car_enity.center_y):
+        if not self._map_manager.is_on_track(
+            self.car_enity.center_x, self.car_enity.center_y
+        ):
             self.is_alive = False
 
     def debug(self):
