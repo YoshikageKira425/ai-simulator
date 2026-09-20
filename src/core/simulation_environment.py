@@ -4,11 +4,16 @@ from .map_manager import MapManager
 from ..model.neural_network_model import NeuralNetworkModel
 
 
-class GameManager:
+class SimulationEnvironment:
     def __int__(self, map_manager: MapManager, population: int = 20):
-        self.agents = [CarAgent(
-            70, 200, map_manager, NeuralNetworkModel.random()) for i in range(population)]
+        self.map_manager = map_manager
         
+        self.spawn(population)
+    
+    def spawn(self, population: int = 20):    
+        self.agents = [CarAgent(
+            70, 200, self.map_manager, NeuralNetworkModel.random()) for i in range(population)]
+    
     def get_sprites(self) -> list[arcade.Sprite]:
         return [car.car_enity for car in self.agents]
     
