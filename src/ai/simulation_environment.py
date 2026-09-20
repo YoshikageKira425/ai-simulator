@@ -1,11 +1,11 @@
 import arcade
-from .car_agent import CarAgent
-from .map_manager import MapManager
+from ..core.car_agent import CarAgent
+from ..core.map_manager import MapManager
 from ..model.neural_network_model import NeuralNetworkModel
 
 
 class SimulationEnvironment:
-    def __int__(self, map_manager: MapManager, population: int = 20):
+    def __init__(self, map_manager: MapManager, population: int = 20):
         self.map_manager = map_manager
         
         self.spawn(population)
@@ -18,6 +18,9 @@ class SimulationEnvironment:
         return [car.car_enity for car in self.agents]
     
     def update(self, delta_time: float):
+        if self.all_dead:
+            return
+        
         for car in self.agents:
             car.update(delta_time)
             
