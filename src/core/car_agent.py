@@ -38,7 +38,7 @@ class CarAgent:
         if manual_actions is not None:
             throttle, steering = manual_actions
         elif self.brain is not None:
-            steering, throttle = self.brain.foward_pass(self.sensor_inputs)
+            steering, throttle = self.brain.foward_pass(self.sensor_inputs)[0]
         else:
             throttle, steering = 0.0, 0.0
 
