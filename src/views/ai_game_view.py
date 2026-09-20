@@ -12,7 +12,7 @@ class AiGameView(arcade.View):
         self.map_manager = MapManager()
         self.sprite_list.append(self.map_manager.get_map())
 
-        self.car = CarAgent(70, 200, self.map_manager, NeuralNetworkModel.random(5, 6, 2))
+        self.car = CarAgent(70, 200, self.map_manager, NeuralNetworkModel.random())
         self.sprite_list.append(self.car.car_enity)
         
         self.wait = 2
