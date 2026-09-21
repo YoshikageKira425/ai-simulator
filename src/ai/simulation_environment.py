@@ -24,6 +24,14 @@ class SimulationEnvironment:
         for car in self.agents:
             car.update(delta_time)
             
+    def kill_every_agents(self):
+        for agent in self.agents:
+            agent.is_alive = True
+            
+    @property
+    def highest_fitness(self) -> list[CarAgent]:
+        return sorted(self.agents, key=lambda agent: agent.fitness)
+            
     @property
     def active_agents_count(self) -> int:
         return sum(1 for agent in self.agents if agent.is_alive)
