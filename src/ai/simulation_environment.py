@@ -26,11 +26,11 @@ class SimulationEnvironment:
             
     def kill_every_agents(self):
         for agent in self.agents:
-            agent.is_alive = True
+            agent.is_alive = False
             
     @property
     def highest_fitness(self) -> list[CarAgent]:
-        return sorted(self.agents, key=lambda agent: agent.fitness)
+        return sorted(self.agents, key=lambda agent: agent.fitness, reverse=True)
             
     @property
     def active_agents_count(self) -> int:
