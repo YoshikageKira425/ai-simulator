@@ -14,11 +14,14 @@ def breed(agents: list[CarAgent], popullation:int = 20) -> list[NeuralNetworkMod
         parent_a = _tournament_selection(agents)
         parent_b = _tournament_selection(agents)
         
+        results.append(_crossover(parent_a, parent_b))
+        
+    return results
         
 def _tournament_selection(agents: list[CarAgent]) -> CarAgent:
     k_agents = random.choices(agents, k=3)
     
     return max(k_agents, key=lambda agent: agent.fitness)
 
-def _breed(parent_a: CarAgent, parent_b: CarAgent) -> NeuralNetworkModel:
+def _crossover(parent_a: CarAgent, parent_b: CarAgent) -> NeuralNetworkModel:
     pass
