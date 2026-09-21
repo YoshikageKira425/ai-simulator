@@ -2,13 +2,15 @@ import random
 from ..core.car_agent import CarAgent
 from ..model.neural_network_model import NeuralNetworkModel
 
-ELITISM = 0.5
+ELITISM = 2
 
 def breed(agents: list[CarAgent], popullation:int = 20) -> list[NeuralNetworkModel]:
-    top_1_agent = agents[0]
-    top_2_agent = agents[1]
+    results = []
     
-    for i in range(popullation - 2):
+    for i in range(ELITISM):
+        results.append(agents[i].brain)
+    
+    for i in range(popullation - ELITISM):
         parent_a = _tournament_selection(agents)
         parent_b = _tournament_selection(agents)
         
