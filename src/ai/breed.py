@@ -9,7 +9,7 @@ def breed(agents: list[CarAgent], population: int = 20) -> list[NeuralNetworkMod
     results = []
 
     for i in range(ELITISM):
-        results.append(agents[i].brain)
+        results.append(agents[i].brain.model.copy())
 
     for i in range(population - ELITISM):
         parent_a = _tournament_selection(agents)
@@ -27,7 +27,7 @@ def breed(agents: list[CarAgent], population: int = 20) -> list[NeuralNetworkMod
 def _tournament_selection(agents: list[CarAgent]) -> NeuralNetworkModel:
     k_agents = random.sample(agents, k=3)
 
-    return max(k_agents, key=lambda agent: agent.fitness).brain
+    return max(k_agents, key=lambda agent: agent.fitness).brain.model
 
 
 def _crossover(
@@ -57,8 +57,8 @@ def _mutate(child: NeuralNetworkModel):
         return matrix + (mask * noise)
 
     return NeuralNetworkModel(
-        hidden_weight1=mutate_matrix(child.hidden_weight1),
-        hidden_bias1=mutate_matrix(child.hidden_bias1),
-        output_weight2=mutate_matrix(child.output_weight2),
-        output_bias2=mutate_matrix(child.output_bias2),
+        hidden_weight_1=mutate_matrix(child.hidden_weight_1),
+        hidden_bias_1=mutate_matrix(child.hidden_bias_1),
+        output_weight=mutate_matrix(child.output_weight),
+        output_bias=mutate_matrix(child.output_bias),
     )

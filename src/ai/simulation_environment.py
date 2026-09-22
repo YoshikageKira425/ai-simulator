@@ -10,9 +10,9 @@ class SimulationEnvironment:
 
         self.spawn(population)
 
-    def spawn(self, population: int = 20):
+    def spawn(self, population: int = 20, new_generation: list[NeuralNetworkModel] | None = None):
         self.agents = [
-            CarAgent(70, 200, self.map_manager, NeuralNetworkModel.random())
+            CarAgent(70, 200, self.map_manager, NeuralNetworkModel.random() if not new_generation else new_generation[i])
             for i in range(population)
         ]
 

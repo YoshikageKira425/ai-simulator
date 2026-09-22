@@ -1,6 +1,8 @@
 import arcade
 from ..core.map_manager import MapManager
 from ..ai.simulation_environment import SimulationEnvironment
+from ..ai.checkpoint import Checkpoint
+from ..ai.breed import breed
 
 
 class SimulationView(arcade.View):
@@ -18,11 +20,13 @@ class SimulationView(arcade.View):
         self.wait = 2
         self.kill_timer = 10
 
-    def spawn(self):
+    def new_generation_spawn(self):
         for sprite in self.simulation_enviroment.get_sprites():
             self.sprite_list.remove(sprite)
 
-        self.simulation_enviroment.spawn()
+        new_generation = breed(self.simulation_enviroment.highest_fitness)
+
+        self.simulation_enviroment.spawn(20, new_generation)
         self.sprite_list.extend(self.simulation_enviroment.get_sprites())
 
     def on_update(self, delta_time):
@@ -31,14 +35,9 @@ class SimulationView(arcade.View):
             return
 
         if self.kill_timer <= 0:
-            self.simulation_enviroment.kill_every_agents()
-
-            agents_str = ", ".join(
-                f"#{i + 1}: {agent.fitness:.2f}"
-                for i, agent in enumerate(self.simulation_enviroment.highest_fitness)
-            )
-            print(f"Agents {agents_str}")
-            self.window.close()
+            self.new_generation_spawn()
+            
+            self.kill_timer = 10
         else:
             self.kill_timer -= delta_time
 
