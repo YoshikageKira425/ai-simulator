@@ -48,7 +48,7 @@ def _crossover(
 
 def _mutate(child: NeuralNetworkModel):
     if random.random() > MUTATION_CHANCE:
-        return
+        return child
 
     def mutate_matrix(matrix: numpy.ndarray) -> numpy.ndarray:
         mask = numpy.random.rand(*matrix.shape) < MUTATION_CHANCE
