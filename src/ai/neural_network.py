@@ -7,9 +7,7 @@ class NeuralNetwork:
         self.model = model
 
     def foward_pass(self, input: list[float]):
-        z1 = (
-            numpy.dot(input, self.model.hidden_weight_1) + self.model.hidden_bias_1
-        )
+        z1 = numpy.dot(input, self.model.hidden_weight_1) + self.model.hidden_bias_1
         a1 = numpy.tanh(z1)
 
         z2 = numpy.dot(a1, self.model.output_weight) + self.model.output_bias

@@ -7,31 +7,33 @@ from ..model.neural_network_model import NeuralNetworkModel
 class SimulationEnvironment:
     def __init__(self, map_manager: MapManager, population: int = 20):
         self.map_manager = map_manager
-        
+
         self.spawn(population)
-    
-    def spawn(self, population: int = 20):    
-        self.agents = [CarAgent(
-            70, 200, self.map_manager, NeuralNetworkModel.random()) for i in range(population)]
-    
+
+    def spawn(self, population: int = 20):
+        self.agents = [
+            CarAgent(70, 200, self.map_manager, NeuralNetworkModel.random())
+            for i in range(population)
+        ]
+
     def get_sprites(self) -> list[arcade.Sprite]:
         return [car.car_enity for car in self.agents]
-    
+
     def update(self, delta_time: float):
         if self.all_dead:
             return
-        
+
         for car in self.agents:
             car.update(delta_time)
-            
+
     def kill_every_agents(self):
         for agent in self.agents:
             agent.is_alive = False
-            
+
     @property
     def highest_fitness(self) -> list[CarAgent]:
         return sorted(self.agents, key=lambda agent: agent.fitness, reverse=True)
-            
+
     @property
     def active_agents_count(self) -> int:
         return sum(1 for agent in self.agents if agent.is_alive)
@@ -39,4 +41,3 @@ class SimulationEnvironment:
     @property
     def all_dead(self) -> bool:
         return self.active_agents_count == 0
-            

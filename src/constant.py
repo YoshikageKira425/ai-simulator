@@ -12,5 +12,9 @@ RAY_ANGLES = [-60.0, -30.0, 0.0, 30.0, 60.0]
 RAY_MAX_DISTANCE = 250.0
 RAY_STEP_SIZE = 3.0
 
+ELITISM = 2
+MUTATION_CHANCE = 0.1
+MUTATION_STRENGTH = 0.1
+
 MAP_IMAGE_PATH = "src/assets/maps/map01.png"
 CAR_IMAGE_PATH = "src/assets/sprites/placeholder_car_sprite.png"
