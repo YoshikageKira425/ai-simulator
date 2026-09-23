@@ -36,11 +36,16 @@ def _crossover(
     hidden_weight_1 = (parent_a.hidden_weight_1 + parent_b.hidden_weight_1) / 2
     hidden_bias_1 = (parent_a.hidden_bias_1 + parent_b.hidden_bias_1) / 2
 
+    hidden_weight_2 = (parent_a.hidden_weight_2 + parent_b.hidden_weight_2) / 2
+    hidden_bias_2 = (parent_a.hidden_bias_2 + parent_b.hidden_bias_2) / 2
+
     output_weight = (parent_a.output_weight + parent_b.output_weight) / 2
     output_bias = (parent_a.output_bias + parent_b.output_bias) / 2
 
     child = NeuralNetworkModel(
-        hidden_weight_1, hidden_bias_1, output_weight, output_bias
+        hidden_weight_1, hidden_bias_1,
+        hidden_weight_2, hidden_bias_2,
+        output_weight, output_bias
     )
 
     return child
@@ -59,6 +64,8 @@ def _mutate(child: NeuralNetworkModel):
     return NeuralNetworkModel(
         hidden_weight_1=mutate_matrix(child.hidden_weight_1),
         hidden_bias_1=mutate_matrix(child.hidden_bias_1),
+        hidden_weight_2=mutate_matrix(child.hidden_weight_2),
+        hidden_bias_2=mutate_matrix(child.hidden_bias_2),
         output_weight=mutate_matrix(child.output_weight),
         output_bias=mutate_matrix(child.output_bias),
     )

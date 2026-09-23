@@ -10,7 +10,10 @@ class NeuralNetwork:
         z1 = numpy.dot(input, self.model.hidden_weight_1) + self.model.hidden_bias_1
         a1 = numpy.tanh(z1)
 
-        z2 = numpy.dot(a1, self.model.output_weight) + self.model.output_bias
-        y = numpy.tanh(z2)
+        z2 = numpy.dot(a1, self.model.hidden_weight_2) + self.model.hidden_bias_2
+        a2 = numpy.tanh(z2)
+
+        z3 = numpy.dot(a2, self.model.output_weight) + self.model.output_bias
+        y = numpy.tanh(z3)
 
         return y
