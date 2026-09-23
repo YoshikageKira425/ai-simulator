@@ -21,6 +21,10 @@ class SimulationView(arcade.View):
         self.kill_timer = 10
 
     def new_generation_spawn(self):
+        best_one = self.simulation_enviroment.highest_fitness[0]
+        
+        Checkpoint.save(best_one.model)
+        
         for sprite in self.simulation_enviroment.get_sprites():
             self.sprite_list.remove(sprite)
 

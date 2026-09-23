@@ -2,6 +2,7 @@ import arcade
 from ..core.car_agent import CarAgent
 from ..core.map_manager import MapManager
 from ..model.neural_network_model import NeuralNetworkModel
+from ..ai.checkpoint import Checkpoint
 
 
 class AiGameView(arcade.View):
@@ -13,7 +14,9 @@ class AiGameView(arcade.View):
         self.map_manager = MapManager()
         self.sprite_list.append(self.map_manager.get_map())
 
-        self.car = CarAgent(70, 200, self.map_manager, NeuralNetworkModel.random())
+        brain = Checkpoint.load() if Checkpoint.load() else NeuralNetworkModel.random() 
+
+        self.car = CarAgent(70, 200, self.map_manager, brain)
         self.sprite_list.append(self.car.car_enity)
 
         self.wait = 2
