@@ -51,6 +51,11 @@ class CarAgent:
 
         if self.is_alive:
             self.fitness += self._car_controller.current_speed * delta_time
+            
+            for s in self.sensor_inputs:
+                punishment = (1 - s) * delta_time
+                
+                self.fitness -= punishment
 
     def debug(self):
         self._raycast.debug_cast_rays()
