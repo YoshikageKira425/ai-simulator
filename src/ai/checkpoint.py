@@ -28,7 +28,7 @@ class Checkpoint:
             result = numpy.load(file)
         except:
             return None
-        
+
         if not result:
             return None
 
@@ -40,3 +40,50 @@ class Checkpoint:
             result["output_weight"],
             result["output_bias"],
         )
+
+    @staticmethod
+    def save_generation(generation: list[NeuralNetworkModel], file_name: str = "best_generation"):
+        file = f"checkpoints/{file_name}.npz"
+
+        agents = []
+
+        for agent in generation:
+            agents.append({
+                "hidden_weight_1": agent.hidden_weight_1,
+                "hidden_bias_1": agent.hidden_bias_1,
+                "hidden_weight_2": agent.hidden_weight_2,
+                "hidden_bias_2": agent.hidden_bias_2,
+                "output_weight": agent.output_weight,
+                "output_bias": agent.output_bias,
+            })
+
+        numpy.savez_compressed(
+            file,
+            agents=agents
+        )
+
+    @staticmethod
+    def load_generation(file_name: str = "best_generation") -> list[NeuralNetworkModel] | None:
+        file = f"checkpoints/{file_name}.npz"
+
+        try:
+            result = numpy.load(file)
+        except:
+            return None
+
+        if not result:
+            return None
+
+        data = []
+
+        for agent in result:
+            data.append(NeuralNetworkModel(
+                agent["hidden_weight_1"],
+                agent["hidden_bias_1"],
+                agent["hidden_weight_2"],
+                agent["hidden_bias_2"],
+                agent["output_weight"],
+                agent["output_bias"],
+            ))
+
+        return data
