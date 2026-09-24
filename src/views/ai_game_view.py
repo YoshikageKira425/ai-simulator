@@ -16,7 +16,9 @@ class AiGameView(arcade.View):
 
         brain = Checkpoint.load() if Checkpoint.load() else NeuralNetworkModel.random() 
 
-        self.car = CarAgent(70, 200, self.map_manager, brain)
+        spawn_x, spawn_y = self.map_manager.car_spawn_point()
+
+        self.car = CarAgent(spawn_x, spawn_y, self.map_manager, brain)
         self.sprite_list.append(self.car.car_enity)
 
         self.wait = 2

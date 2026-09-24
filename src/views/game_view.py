@@ -12,7 +12,9 @@ class GameView(arcade.View):
         self.map_manager = MapManager()
         self.sprite_list.append(self.map_manager.get_map())
 
-        self.car = CarAgent(70, 200, self.map_manager)
+        spawn_x, spawn_y = self.map_manager.car_spawn_point()
+
+        self.car = CarAgent(spawn_x, spawn_y, self.map_manager)
         self.sprite_list.append(self.car.car_enity)
 
         self.throttle = 0
