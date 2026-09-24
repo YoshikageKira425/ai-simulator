@@ -14,16 +14,14 @@ class SimulationView(arcade.View):
         self.map_manager = MapManager()
         self.sprite_list.append(self.map_manager.get_map())
 
-        self.simulation_enviroment = SimulationEnvironment(self.map_manager)
+        self.simulation_enviroment = SimulationEnvironment(self.map_manager, Checkpoint.load_generation())
         self.sprite_list.extend(self.simulation_enviroment.get_sprites())
 
         self.wait = 2
         self.kill_timer = 10
 
     def new_generation_spawn(self):
-        best_one = self.simulation_enviroment.highest_fitness[0]
-        
-        Checkpoint.save(best_one.model)
+        Checkpoint.save_generation(self.simulation_enviroment.get_all_models())
         
         for sprite in self.simulation_enviroment.get_sprites():
             self.sprite_list.remove(sprite)

@@ -41,7 +41,7 @@ class Checkpoint:
             result["output_bias"],
         )
 
-    @classmethod
+    @staticmethod
     def save_generation(
         generation: list[NeuralNetworkModel],
         file_name: str = "best_generation",
@@ -62,7 +62,7 @@ class Checkpoint:
             output_bias=numpy.array([m.output_bias for m in generation]),
         )
 
-    @classmethod
+    @staticmethod
     def load_generation(file_name: str = "best_generation") -> list[NeuralNetworkModel] | None:
         file_path = f"checkpoints/{file_name}.npz"
 

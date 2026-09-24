@@ -5,14 +5,15 @@ from ..model.neural_network_model import NeuralNetworkModel
 
 
 class SimulationEnvironment:
-    def __init__(self, map_manager: MapManager, population: int = 20):
+    def __init__(self, map_manager: MapManager, new_generation: list[NeuralNetworkModel] = None, population: int = 20):
         self.map_manager = map_manager
 
-        self.spawn(population)
+        self.spawn(population, new_generation)
 
     def spawn(self, population: int = 20, new_generation: list[NeuralNetworkModel] | None = None):
         self.agents = [
-            CarAgent(70, 200, self.map_manager, NeuralNetworkModel.random() if not new_generation else new_generation[i])
+            CarAgent(70, 200, self.map_manager, NeuralNetworkModel.random()
+                     if not new_generation else new_generation[i])
             for i in range(population)
         ]
 
@@ -29,6 +30,9 @@ class SimulationEnvironment:
     def kill_every_agents(self):
         for agent in self.agents:
             agent.is_alive = False
+
+    def get_all_models(self) -> list[NeuralNetworkModel]:
+        return [car.brain.model for car in self.highest_fitness]
 
     @property
     def highest_fitness(self) -> list[CarAgent]:
