@@ -53,3 +53,6 @@ class SimulationView(arcade.View):
         self.clear()
 
         self.sprite_list.draw()
+        
+        for agent in self.simulation_enviroment.agents:
+            agent.debug()

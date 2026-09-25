@@ -31,8 +31,10 @@ class CarAgent:
         self.prev_y = self.car_enity.center_y
         self.distance_traveled = 0.0
         
-        self.idle_time = 0.0
-        self.MAX_IDLE_TIME = 2.0
+        self.max_distance_reached = 0.0
+        self.stagnation_timer = 0.0
+        self.MAX_STAGNATION_TIME = 2.0
+        self.MIN_PROGRESS_THRESHOLD = 35.0
 
     def update(
         self, delta_time: float, manual_actions: Optional[tuple[float, float]] = None
@@ -57,13 +59,21 @@ class CarAgent:
             self.is_alive = False
             return
 
-        if self._car_controller.current_speed < 10:
-            self.idle_time += delta_time
-            if self.idle_time >= self.MAX_IDLE_TIME:
-                self.is_alive = False
-                return
+        dx = self.car_enity.center_x - self.prev_x
+        dy = self.car_enity.center_y - self.prev_y
+        self.distance_traveled += math.hypot(dx, dy)
+
+        if (
+            self.distance_traveled - self.max_distance_reached
+            > self.MIN_PROGRESS_THRESHOLD
+        ):
+            self.max_distance_reached = self.distance_traveled
+            self.stagnation_timer = 0.0 
         else:
-            self.idle_time = 0.0
+            self.stagnation_timer += delta_time
+            if self.stagnation_timer >= self.MAX_STAGNATION_TIME:
+                self.is_alive = False  
+                return
             
         self.prev_x = self.car_enity.center_x
         self.prev_y = self.car_enity.center_y
@@ -73,4 +83,7 @@ class CarAgent:
         return self.distance_traveled 
 
     def debug(self):
+        if not self.is_alive:
+            return
+        
         self._raycast.debug_cast_rays()
