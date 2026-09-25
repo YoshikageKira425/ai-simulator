@@ -9,12 +9,10 @@ class GameView(arcade.View):
 
         self.sprite_list = arcade.SpriteList(True)
 
-        self.map_manager = MapManager()
+        self.map_manager = MapManager(5)
         self.sprite_list.append(self.map_manager.get_map())
 
-        spawn_x, spawn_y = self.map_manager.car_spawn_point()
-
-        self.car = CarAgent(spawn_x, spawn_y, self.map_manager)
+        self.car = CarAgent(self.map_manager)
         self.sprite_list.append(self.car.car_enity)
 
         self.throttle = 0
@@ -40,7 +38,7 @@ class GameView(arcade.View):
 
     def on_update(self, delta_time):
         self.car.update(delta_time, [self.throttle, self.steering])
-
+        
     def on_draw(self):
         self.clear()
 

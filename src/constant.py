@@ -23,35 +23,35 @@ MAPS = [
     },
     {
         "path": "src/assets/maps/map02.png",
-        "spawn_point": (240, 120),
+        "spawn_point": (160, 200),
     },
     {
         "path": "src/assets/maps/map03.png",
-        "spawn_point": (200, 140),
+        "spawn_point": (160, 350),
     },
     {
         "path": "src/assets/maps/map04.png",
-        "spawn_point": (200, 140),
+        "spawn_point": (160, 200),
     },
     {
         "path": "src/assets/maps/map05.png",
-        "spawn_point": (250, 480),
+        "spawn_point": (150, 120),
     },
     {
         "path": "src/assets/maps/map06.png",
-        "spawn_point": (200, 140),
+        "spawn_point": (150, 170),
     },
     {
         "path": "src/assets/maps/map07.png",
-        "spawn_point": (250, 150),
+        "spawn_point": (165, 180),
     },
     {
         "path": "src/assets/maps/map08.png",
-        "spawn_point": (200, 130),
+        "spawn_point": (150, 280),
     },
     {
         "path": "src/assets/maps/map09.png",
-        "spawn_point": (200, 220),
+        "spawn_point": (200, 230),
     },
 ]
 CAR_IMAGE_PATH = "src/assets/sprites/placeholder_car_sprite.png"

@@ -10,11 +10,11 @@ from ..ai.neural_network import NeuralNetwork
 class CarAgent:
     def __init__(
         self,
-        spawn_x: float,
-        spawn_y: float,
         map: MapManager,
         model: Optional[NeuralNetworkModel] = None,
     ):
+        spawn_x, spawn_y = map.car_spawn_point()
+
         self.car_enity = Car(spawn_x, spawn_y)
         self._car_controller = CarController(self.car_enity)
         self._raycast = Raycasting(self.car_enity, map)
@@ -51,10 +51,10 @@ class CarAgent:
 
         if self.is_alive:
             self.fitness += self._car_controller.current_speed * delta_time
-            
+
             for s in self.sensor_inputs:
                 punishment = (1 - s) * delta_time
-                
+
                 self.fitness -= punishment
 
     def debug(self):

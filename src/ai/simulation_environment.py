@@ -11,10 +11,8 @@ class SimulationEnvironment:
         self.spawn(population, new_generation)
 
     def spawn(self, population: int = 20, new_generation: list[NeuralNetworkModel] | None = None):
-        spawn_x, spawn_y = self.map_manager.car_spawn_point()
-        
         self.agents = [
-            CarAgent(spawn_x, spawn_y, self.map_manager, NeuralNetworkModel.random()
+            CarAgent(self.map_manager, NeuralNetworkModel.random()
                      if not new_generation else new_generation[i])
             for i in range(population)
         ]
