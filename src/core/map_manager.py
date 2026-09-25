@@ -9,7 +9,7 @@ class MapManager:
         
         self._map_sprite = arcade.Sprite(self._map_data["path"], center_x=400, center_y=300)
 
-        self._pil_image = Image.open(self._map_data["path"]).convert("RGB")
+        self._pil_image = Image.open(self._map_data["path"]).convert("RGBA")
         self.width, self.height = self._pil_image.size
 
     def car_spawn_point(self) -> tuple:
@@ -22,8 +22,8 @@ class MapManager:
         new_y = self.height - y
 
         if 0 <= x < self.width and 0 <= new_y < self.height:
-            r, g, b = self._pil_image.getpixel((x, new_y))
+            _, _, _, a= self._pil_image.getpixel((x, new_y))
             
-            return not (r > 0 and g > 0 and b > 0)
+            return a == 0
 
         return False

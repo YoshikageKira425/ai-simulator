@@ -9,7 +9,7 @@ class GameView(arcade.View):
 
         self.sprite_list = arcade.SpriteList(True)
 
-        self.map_manager = MapManager(5)
+        self.map_manager = MapManager(1)
         self.sprite_list.append(self.map_manager.get_map())
 
         self.car = CarAgent(self.map_manager)
@@ -43,4 +43,4 @@ class GameView(arcade.View):
         self.clear()
 
         self.sprite_list.draw()
-        # self.car.debug()
+        self.car.debug()
