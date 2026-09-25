@@ -25,12 +25,14 @@ class CarAgent:
         self.brain = NeuralNetwork(model) if model else None
 
         self.is_alive = True
-        self.speed_bonus = 0.0
         self.sensor_inputs: list[float] = []
         
         self.prev_x = self.car_enity.center_x
         self.prev_y = self.car_enity.center_y
         self.distance_traveled = 0.0
+        
+        self.idle_time = 0.0
+        self.MAX_IDLE_TIME = 2.0
 
     def update(
         self, delta_time: float, manual_actions: Optional[tuple[float, float]] = None
@@ -46,8 +48,6 @@ class CarAgent:
             steering, throttle = self.brain.foward_pass(self.sensor_inputs)[0]
         else:
             throttle, steering = 0.0, 0.0
-            
-        prev_x, prev_y = self.car_enity.center_x, self.car_enity.center_y
 
         self._car_controller.apply_action(throttle, steering, delta_time)
 
@@ -55,20 +55,22 @@ class CarAgent:
             self.car_enity.center_x, self.car_enity.center_y
         ):
             self.is_alive = False
+            return
 
-        if self.is_alive:
-            self.speed_bonus += self._car_controller.current_speed * delta_time
-            
-            dx = self.car_enity.center_x - self.prev_x
-            dy = self.car_enity.center_y - self.prev_y
-            self.distance_traveled += math.hypot(dx, dy)
+        if self._car_controller.current_speed < 10:
+            self.idle_time += delta_time
+            if self.idle_time >= self.MAX_IDLE_TIME:
+                self.is_alive = False
+                return
+        else:
+            self.idle_time = 0.0
             
         self.prev_x = self.car_enity.center_x
         self.prev_y = self.car_enity.center_y
 
     @property
     def fitness(self):
-        return self.distance_traveled + self.speed_bonus
+        return self.distance_traveled 
 
     def debug(self):
         self._raycast.debug_cast_rays()
