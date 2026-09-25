@@ -1,4 +1,5 @@
-from typing import List, Tuple, Optional
+import math
+from typing import Optional
 from ..entity.car import Car
 from .car_controller import CarController
 from .raycasting import Raycasting
@@ -24,11 +25,15 @@ class CarAgent:
         self.brain = NeuralNetwork(model) if model else None
 
         self.is_alive = True
-        self.fitness = 0.0
-        self.sensor_inputs: List[float] = []
+        self.speed_bonus = 0.0
+        self.sensor_inputs: list[float] = []
+        
+        self.prev_x = self.car_enity.center_x
+        self.prev_y = self.car_enity.center_y
+        self.distance_traveled = 0.0
 
     def update(
-        self, delta_time: float, manual_actions: Optional[Tuple[float, float]] = None
+        self, delta_time: float, manual_actions: Optional[tuple[float, float]] = None
     ):
         if not self.is_alive:
             return
@@ -41,6 +46,8 @@ class CarAgent:
             steering, throttle = self.brain.foward_pass(self.sensor_inputs)[0]
         else:
             throttle, steering = 0.0, 0.0
+            
+        prev_x, prev_y = self.car_enity.center_x, self.car_enity.center_y
 
         self._car_controller.apply_action(throttle, steering, delta_time)
 
@@ -50,12 +57,18 @@ class CarAgent:
             self.is_alive = False
 
         if self.is_alive:
-            self.fitness += self._car_controller.current_speed * delta_time
+            self.speed_bonus += self._car_controller.current_speed * delta_time
+            
+            dx = self.car_enity.center_x - self.prev_x
+            dy = self.car_enity.center_y - self.prev_y
+            self.distance_traveled += math.hypot(dx, dy)
+            
+        self.prev_x = self.car_enity.center_x
+        self.prev_y = self.car_enity.center_y
 
-            for s in self.sensor_inputs:
-                punishment = (1 - s) * delta_time
-
-                self.fitness -= punishment
+    @property
+    def fitness(self):
+        return self.distance_traveled + self.speed_bonus
 
     def debug(self):
         self._raycast.debug_cast_rays()
