@@ -6,6 +6,7 @@ from .raycasting import Raycasting
 from .map_manager import MapManager
 from ..model.neural_network_model import NeuralNetworkModel
 from ..ai.neural_network import NeuralNetwork
+from ..constant import MAX_STAGNATION_TIME, MIN_PROGRESS_THRESHOLD, SAFE_DISTANCE, PENALTY_WEIGHT
 
 
 class CarAgent:
@@ -26,15 +27,15 @@ class CarAgent:
 
         self.is_alive = True
         self.sensor_inputs: list[float] = []
-        
+
         self.prev_x = self.car_enity.center_x
         self.prev_y = self.car_enity.center_y
         self.distance_traveled = 0.0
-        
+
         self.max_distance_reached = 0.0
         self.stagnation_timer = 0.0
-        self.MAX_STAGNATION_TIME = 2.0
-        self.MIN_PROGRESS_THRESHOLD = 35.0
+
+        self.wall_penalty = 0
 
     def update(
         self, delta_time: float, manual_actions: Optional[tuple[float, float]] = None
@@ -43,6 +44,12 @@ class CarAgent:
             return
 
         self.sensor_inputs = self._raycast.cast_rays()
+
+        min_sensor_dist = min(self.sensor_inputs)
+
+        if min_sensor_dist < SAFE_DISTANCE:
+            closeness = (SAFE_DISTANCE - min_sensor_dist) / SAFE_DISTANCE
+            self.wall_penalty += closeness * PENALTY_WEIGHT * delta_time
 
         if manual_actions is not None:
             throttle, steering = manual_actions
@@ -65,25 +72,25 @@ class CarAgent:
 
         if (
             self.distance_traveled - self.max_distance_reached
-            > self.MIN_PROGRESS_THRESHOLD
+            > MIN_PROGRESS_THRESHOLD
         ):
             self.max_distance_reached = self.distance_traveled
-            self.stagnation_timer = 0.0 
+            self.stagnation_timer = 0.0
         else:
             self.stagnation_timer += delta_time
-            if self.stagnation_timer >= self.MAX_STAGNATION_TIME:
-                self.is_alive = False  
+            if self.stagnation_timer >= MAX_STAGNATION_TIME:
+                self.is_alive = False
                 return
-            
+
         self.prev_x = self.car_enity.center_x
         self.prev_y = self.car_enity.center_y
 
     @property
     def fitness(self):
-        return self.distance_traveled 
+        return max(0, self.distance_traveled - self.wall_penalty)
 
     def debug(self):
         if not self.is_alive:
             return
-        
+
         self._raycast.debug_cast_rays()

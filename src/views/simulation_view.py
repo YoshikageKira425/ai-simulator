@@ -12,7 +12,7 @@ class SimulationView(arcade.View):
 
         self.sprite_list = arcade.SpriteList(True)
 
-        self.map_manager = MapManager(5)
+        self.map_manager = MapManager(3)
         self.sprite_list.append(self.map_manager.get_map())
 
         self.simulation_enviroment = SimulationEnvironment(self.map_manager, Checkpoint.load_generation())
@@ -54,5 +54,5 @@ class SimulationView(arcade.View):
 
         self.sprite_list.draw()
         
-        for agent in self.simulation_enviroment.agents:
-            agent.debug()
+        # for agent in self.simulation_enviroment.agents:
+        #     agent.debug()
