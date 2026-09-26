@@ -7,14 +7,15 @@ from ..model.neural_network_model import NeuralNetworkModel
 class SimulationEnvironment:
     def __init__(self, map_manager: MapManager, new_generation: list[NeuralNetworkModel] = None, population: int = 20):
         self.map_manager = map_manager
+        self.population = population
 
-        self.spawn(population, new_generation)
+        self.spawn(new_generation)
 
-    def spawn(self, population: int = 20, new_generation: list[NeuralNetworkModel] | None = None):
+    def spawn(self, new_generation: list[NeuralNetworkModel] | None = None):
         self.agents = [
             CarAgent(self.map_manager, NeuralNetworkModel.random()
                      if not new_generation else new_generation[i])
-            for i in range(population)
+            for i in range(self.population)
         ]
 
     def get_sprites(self) -> list[arcade.Sprite]:
