@@ -11,15 +11,19 @@ class SimulationView(arcade.View):
     def __init__(self):
         super().__init__(background_color=arcade.color.BLACK)
 
+        arcade.enable_timings()
+
         self.ui = SimulationInformationUi()
 
         self.sprite_list = arcade.SpriteList(True)
 
-        self.map_manager = MapManager(1)
+        self.map_manager = MapManager(2)
         self.sprite_list.append(self.map_manager.get_map())
 
         self.simulation_enviroment = SimulationEnvironment(
-            self.map_manager, Checkpoint.load_generation())
+            self.map_manager,
+            Checkpoint.load_generation()
+        )
         self.sprite_list.extend(self.simulation_enviroment.get_sprites())
 
         self.debug_mode = False
@@ -44,9 +48,7 @@ class SimulationView(arcade.View):
             self.step(delta_time)
 
     def step(self, delta_time: float):
-        self.ui.set_time_remaining(self.kill_timer)
-        self.ui.set_alive_counter(
-              self.simulation_enviroment.active_agents_count, self.simulation_enviroment.population)
+        self.update_ui()
 
         if self.wait > 0:
             self.wait -= delta_time
@@ -63,6 +65,16 @@ class SimulationView(arcade.View):
             self.kill_timer -= delta_time
 
         self.simulation_enviroment.update(delta_time)
+
+    def update_ui(self):
+        self.ui.set_fps()
+        self.ui.set_time_remaining(self.kill_timer)
+        self.ui.set_alive_counter(
+            self.simulation_enviroment.active_agents_count,
+            self.simulation_enviroment.population
+        )
+        self.ui.set_the_highest_fitness(
+            self.simulation_enviroment.highest_fitness[0].fitness)
 
     def on_key_press(self, symbol, modifiers):
         if symbol == arcade.key.D:
