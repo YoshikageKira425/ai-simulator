@@ -16,4 +16,4 @@ class NeuralNetwork:
         z3 = numpy.dot(a2, self.model.output_weight) + self.model.output_bias
         y = numpy.tanh(z3)
 
-        return y
+        return y.flatten()

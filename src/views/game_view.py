@@ -38,7 +38,7 @@ class GameView(arcade.View):
 
     def on_update(self, delta_time):
         self.car.update(delta_time, [self.throttle, self.steering])
-        
+
     def on_draw(self):
         self.clear()
 

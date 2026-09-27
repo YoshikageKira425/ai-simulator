@@ -17,12 +17,11 @@ class SimulationView(arcade.View):
 
         self.sprite_list = arcade.SpriteList(True)
 
-        self.map_manager = MapManager(2)
+        self.map_manager = MapManager(6)
         self.sprite_list.append(self.map_manager.get_map())
 
         self.simulation_enviroment = SimulationEnvironment(
-            self.map_manager,
-            Checkpoint.load_generation()
+            self.map_manager, Checkpoint.load_generation()
         )
         self.sprite_list.extend(self.simulation_enviroment.get_sprites())
 
@@ -71,24 +70,31 @@ class SimulationView(arcade.View):
         self.ui.set_time_remaining(self.kill_timer)
         self.ui.set_alive_counter(
             self.simulation_enviroment.active_agents_count,
-            self.simulation_enviroment.population
+            self.simulation_enviroment.population,
         )
         self.ui.set_the_highest_fitness(
-            self.simulation_enviroment.highest_fitness[0].fitness)
+            self.simulation_enviroment.highest_fitness[0].fitness
+        )
 
     def on_key_press(self, symbol, modifiers):
         if symbol == arcade.key.D:
             self.debug_mode = not self.debug_mode
 
-        if symbol == arcade.key.SPACE:
-            if self.game_speed == 1:
-                self.game_speed = 2
-            elif self.game_speed == 2:
-                self.game_speed = 3
-            elif self.game_speed == 3:
-                self.game_speed = 1
+        if symbol == arcade.key.KEY_0:
+            self.update_game_speed(0)
 
-            self.ui.set_game_speed(self.game_speed)
+        if symbol == arcade.key.KEY_1:
+            self.update_game_speed(1)
+
+        if symbol == arcade.key.KEY_2:
+            self.update_game_speed(2)
+
+        if symbol == arcade.key.KEY_3:
+            self.update_game_speed(3)
+
+    def update_game_speed(self, speed: int):
+        self.game_speed = speed
+        self.ui.set_game_speed(self.game_speed)
 
     def on_draw(self):
         self.clear()

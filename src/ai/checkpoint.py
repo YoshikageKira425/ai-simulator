@@ -50,20 +50,18 @@ class Checkpoint:
 
         numpy.savez_compressed(
             file_path,
-            hidden_weight_1=numpy.array(
-                [m.hidden_weight_1 for m in generation]
-            ),
+            hidden_weight_1=numpy.array([m.hidden_weight_1 for m in generation]),
             hidden_bias_1=numpy.array([m.hidden_bias_1 for m in generation]),
-            hidden_weight_2=numpy.array(
-                [m.hidden_weight_2 for m in generation]
-            ),
+            hidden_weight_2=numpy.array([m.hidden_weight_2 for m in generation]),
             hidden_bias_2=numpy.array([m.hidden_bias_2 for m in generation]),
             output_weight=numpy.array([m.output_weight for m in generation]),
             output_bias=numpy.array([m.output_bias for m in generation]),
         )
 
     @staticmethod
-    def load_generation(file_name: str = "best_generation") -> list[NeuralNetworkModel] | None:
+    def load_generation(
+        file_name: str = "best_generation",
+    ) -> list[NeuralNetworkModel] | None:
         file_path = f"checkpoints/{file_name}.npz"
 
         try:

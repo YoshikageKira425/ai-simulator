@@ -6,7 +6,12 @@ from .raycasting import Raycasting
 from .map_manager import MapManager
 from ..model.neural_network_model import NeuralNetworkModel
 from ..ai.neural_network import NeuralNetwork
-from ..constant import MAX_STAGNATION_TIME, MIN_PROGRESS_THRESHOLD, SAFE_DISTANCE, PENALTY_WEIGHT
+from ..constant import (
+    MAX_STAGNATION_TIME,
+    MIN_PROGRESS_THRESHOLD,
+    SAFE_DISTANCE,
+    PENALTY_WEIGHT,
+)
 
 
 class CarAgent:
@@ -54,7 +59,7 @@ class CarAgent:
         if manual_actions is not None:
             throttle, steering = manual_actions
         elif self.brain is not None:
-            steering, throttle = self.brain.foward_pass(self.sensor_inputs)[0]
+            steering, throttle = self.brain.foward_pass(self.sensor_inputs)
         else:
             throttle, steering = 0.0, 0.0
 
@@ -70,10 +75,7 @@ class CarAgent:
         dy = self.car_enity.center_y - self.prev_y
         self.distance_traveled += math.hypot(dx, dy)
 
-        if (
-            self.distance_traveled - self.max_distance_reached
-            > MIN_PROGRESS_THRESHOLD
-        ):
+        if self.distance_traveled - self.max_distance_reached > MIN_PROGRESS_THRESHOLD:
             self.max_distance_reached = self.distance_traveled
             self.stagnation_timer = 0.0
         else:

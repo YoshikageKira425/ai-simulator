@@ -6,8 +6,10 @@ from ..constant import MAPS
 class MapManager:
     def __init__(self, map_index: int = 0):
         self._map_data = MAPS[map_index]
-        
-        self._map_sprite = arcade.Sprite(self._map_data["path"], center_x=400, center_y=300)
+
+        self._map_sprite = arcade.Sprite(
+            self._map_data["path"], center_x=400, center_y=300
+        )
 
         self._pil_image = Image.open(self._map_data["path"]).convert("RGBA")
         self.width, self.height = self._pil_image.size
@@ -22,8 +24,8 @@ class MapManager:
         new_y = self.height - y
 
         if 0 <= x < self.width and 0 <= new_y < self.height:
-            _, _, _, a= self._pil_image.getpixel((x, new_y))
-            
+            _, _, _, a = self._pil_image.getpixel((x, new_y))
+
             return a == 0
 
         return False

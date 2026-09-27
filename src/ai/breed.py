@@ -36,11 +36,15 @@ def _crossover(
     def cross_matrix(a: numpy.ndarray, b: numpy.ndarray) -> numpy.ndarray:
         mask = numpy.random.rand(*a.shape) < 0.5
         return numpy.where(mask, a, b)
-    
+
     return NeuralNetworkModel(
-        hidden_weight_1=cross_matrix(parent_a.hidden_weight_1, parent_b.hidden_weight_1),
+        hidden_weight_1=cross_matrix(
+            parent_a.hidden_weight_1, parent_b.hidden_weight_1
+        ),
         hidden_bias_1=cross_matrix(parent_a.hidden_bias_1, parent_b.hidden_bias_1),
-        hidden_weight_2=cross_matrix(parent_a.hidden_weight_2, parent_b.hidden_weight_2),
+        hidden_weight_2=cross_matrix(
+            parent_a.hidden_weight_2, parent_b.hidden_weight_2
+        ),
         hidden_bias_2=cross_matrix(parent_a.hidden_bias_2, parent_b.hidden_bias_2),
         output_weight=cross_matrix(parent_a.output_weight, parent_b.output_weight),
         output_bias=cross_matrix(parent_a.output_bias, parent_b.output_bias),
