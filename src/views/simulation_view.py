@@ -30,6 +30,8 @@ class SimulationView(arcade.View):
 
         self.wait = 2
         self.kill_timer = KILL_TIMER
+        
+        self.pause = False
 
     def new_generation_spawn(self):
         for sprite in self.simulation_enviroment.get_sprites():
@@ -41,6 +43,9 @@ class SimulationView(arcade.View):
         self.sprite_list.extend(self.simulation_enviroment.get_sprites())
 
     def on_update(self, delta_time):
+        if self.pause:
+            return
+        
         for _ in range(self.game_speed):
             self.step(delta_time)
 
@@ -52,12 +57,10 @@ class SimulationView(arcade.View):
             return
 
         if self.simulation_enviroment.all_dead:
-            self.new_generation_spawn()
-            self.kill_timer = KILL_TIMER
+            self.kill_generation()
 
         if self.kill_timer <= 0:
-            self.new_generation_spawn()
-            self.kill_timer = KILL_TIMER
+            self.kill_generation()
         else:
             self.kill_timer -= delta_time
 
@@ -89,6 +92,12 @@ class SimulationView(arcade.View):
             
         if symbol == arcade.key.S:
             self.save()
+            
+        if symbol == arcade.key.R:
+            self.kill_generation()
+            
+        if symbol == arcade.key.SPACE:
+            self.pause = not self.pause
 
     def update_game_speed(self, speed: int):
         self.game_speed = speed
@@ -100,7 +109,11 @@ class SimulationView(arcade.View):
         
         Checkpoint.save_generation(generation)
         Checkpoint.save(best_one)
-
+        
+    def kill_generation(self):
+        self.new_generation_spawn()
+        self.kill_timer = KILL_TIMER
+            
     def on_draw(self):
         self.clear()
 
