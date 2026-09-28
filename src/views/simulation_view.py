@@ -17,7 +17,8 @@ class SimulationView(arcade.View):
 
         self.sprite_list = arcade.SpriteList(True)
 
-        self.map_manager = MapManager(6)
+        self.map_index = 0
+        self.map_manager = MapManager()
         self.sprite_list.append(self.map_manager.get_map())
 
         self.simulation_enviroment = SimulationEnvironment(
@@ -30,7 +31,7 @@ class SimulationView(arcade.View):
 
         self.wait = 2
         self.kill_timer = KILL_TIMER
-        
+
         self.pause = False
 
     def new_generation_spawn(self):
@@ -45,7 +46,7 @@ class SimulationView(arcade.View):
     def on_update(self, delta_time):
         if self.pause:
             return
-        
+
         for _ in range(self.game_speed):
             self.step(delta_time)
 
@@ -89,15 +90,20 @@ class SimulationView(arcade.View):
 
         if symbol == arcade.key.KEY_3:
             self.update_game_speed(3)
-            
+
         if symbol == arcade.key.S:
             self.save()
-            
+
         if symbol == arcade.key.R:
             self.kill_generation()
-            
+
         if symbol == arcade.key.SPACE:
             self.pause = not self.pause
+
+        if symbol == arcade.key.M:
+            self.map_index = (self.map_index + 1) % self.map_manager.map_limit()
+            
+            self.change_map(self.map_index)
 
     def update_game_speed(self, speed: int):
         self.game_speed = speed
@@ -106,14 +112,21 @@ class SimulationView(arcade.View):
     def save(self):
         generation = self.simulation_enviroment.get_all_models()
         best_one = generation[0]
-        
+
         Checkpoint.save_generation(generation)
         Checkpoint.save(best_one)
-        
+
     def kill_generation(self):
         self.new_generation_spawn()
         self.kill_timer = KILL_TIMER
-            
+
+    def change_map(self, index: int):
+        self.sprite_list.remove(self.map_manager.get_map())
+        self.map_manager.change_map(index)
+        self.sprite_list.append(self.map_manager.get_map())
+
+        self.kill_generation()
+
     def on_draw(self):
         self.clear()
 
