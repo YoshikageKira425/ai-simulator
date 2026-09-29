@@ -11,7 +11,7 @@ def main():
 
     parser.add_argument("--game", action="store_true", help="Launch manual player mode")
     parser.add_argument(
-        "--ai", action="store_true", help="Launch the best ai to play the game"
+        "--demo_ai", action="store_true", help="Launch a demo of the best ai."
     )
     parser.add_argument(
         "--simulation", action="store_true", help="Launch the ai simulation"
@@ -21,8 +21,8 @@ def main():
 
     if args.game:
         play_game()
-    elif args.ai:
-        best_ai()
+    elif args.demo_ai:
+        demo()
     elif args.simulation:
         simulation()
     else:
@@ -35,7 +35,7 @@ def play_game():
     arcade.run()
 
 
-def best_ai():
+def demo():
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     window.show_view(AiGameView())
     arcade.run()
