@@ -26,6 +26,8 @@ class SimulationView(arcade.View):
         )
         self.sprite_list.extend(self.simulation_enviroment.get_sprites())
 
+        self.generation_count = 1
+
         self.debug_mode = False
         self.game_speed = 1
 
@@ -42,6 +44,8 @@ class SimulationView(arcade.View):
 
         self.simulation_enviroment.spawn(new_generation)
         self.sprite_list.extend(self.simulation_enviroment.get_sprites())
+        
+        self.generation_count += 1
 
     def on_update(self, delta_time):
         if self.pause:
@@ -69,6 +73,7 @@ class SimulationView(arcade.View):
 
     def update_ui(self):
         self.ui.set_fps()
+        self.ui.set_generation(self.generation_count)
         self.ui.set_time_remaining(self.kill_timer)
         self.ui.set_alive_counter(
             self.simulation_enviroment.active_agents_count,
