@@ -44,7 +44,7 @@ class SimulationView(arcade.View):
 
         self.simulation_enviroment.spawn(new_generation)
         self.sprite_list.extend(self.simulation_enviroment.get_sprites())
-        
+
         self.generation_count += 1
 
     def on_update(self, delta_time):
@@ -107,7 +107,7 @@ class SimulationView(arcade.View):
 
         if symbol == arcade.key.M:
             self.map_index = (self.map_index + 1) % self.map_manager.map_limit()
-            
+
             self.change_map(self.map_index)
 
     def update_game_speed(self, speed: int):

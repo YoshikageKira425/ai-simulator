@@ -15,7 +15,9 @@ class AiGameView(arcade.View):
         self.map_manager = MapManager()
         self.sprite_list.append(self.map_manager.get_map())
 
-        self.brain = Checkpoint.load() if Checkpoint.load() else NeuralNetworkModel.random()
+        self.brain = (
+            Checkpoint.load() if Checkpoint.load() else NeuralNetworkModel.random()
+        )
 
         self.car = CarAgent(self.map_manager, self.brain)
         self.sprite_list.append(self.car.car_enity)
@@ -60,8 +62,7 @@ class AiGameView(arcade.View):
             self.pause = not self.pause
 
         if symbol == arcade.key.M:
-            self.map_index = (
-                self.map_index + 1) % self.map_manager.map_limit()
+            self.map_index = (self.map_index + 1) % self.map_manager.map_limit()
 
             self.change_map(self.map_index)
 

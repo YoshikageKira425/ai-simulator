@@ -14,10 +14,9 @@ class MapManager:
             self._map_data["path"], center_x=400, center_y=300
         )
 
-        self._pil_image = Image.open(
-            self._map_data["path"]).convert("RGBA")
+        self._pil_image = Image.open(self._map_data["path"]).convert("RGBA")
         self.width, self.height = self._pil_image.size
-        
+
     def map_limit(self) -> int:
         return len(MAPS)
 
