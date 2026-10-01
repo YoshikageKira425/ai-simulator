@@ -1,27 +1,51 @@
 import arcade
-from src.views.game_view import GameView 
+from src.views.game_view import GameView
+from src.views.ai_game_view import AiGameView
+from src.views.simulation_view import SimulationView
 import argparse
 from src.constant import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
 
+
 def main():
-    parser = argparse.ArgumentParser(
-        description="2D Racing AI Simulation Controller"
+    parser = argparse.ArgumentParser(description="2D Racing AI Simulation Controller")
+
+    parser.add_argument("--game", action="store_true", help="Launch manual player mode")
+    parser.add_argument(
+        "--demo_ai", action="store_true", help="Launch a demo of the best ai."
+    )
+    parser.add_argument(
+        "--simulation", action="store_true", help="Launch the ai simulation"
     )
 
-    parser.add_argument(
-        "--game", action="store_true", help="Launch manual player mode"
-    )
     args = parser.parse_args()
-    
-    if args.game or not args.game:
+
+    if args.game:
+        play_game()
+    elif args.demo_ai:
+        demo()
+    elif args.simulation:
+        simulation()
+    else:
         play_game()
 
+
 def play_game():
-    print("Playing game")
-    
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     window.show_view(GameView())
     arcade.run()
+
+
+def demo():
+    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    window.show_view(AiGameView())
+    arcade.run()
+
+
+def simulation():
+    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    window.show_view(SimulationView())
+    arcade.run()
+
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,13 @@
 import math
 from ..entity.car import Car
-from ..constant import CAR_ACCELERATION, CAR_FRICTION, CAR_MAX_SPEED, CAR_TURN_SPEED,  CAR_MAX_REVERSE_SPEED
+from ..constant import (
+    CAR_ACCELERATION,
+    CAR_FRICTION,
+    CAR_MAX_SPEED,
+    CAR_TURN_SPEED,
+    CAR_MAX_REVERSE_SPEED,
+)
+
 
 class CarController:
     def __init__(self, car: Car):
